@@ -2,9 +2,11 @@
 import uuid
 from datetime import datetime
 from .user import User
-from .post import Post
-from .comment import Comment
+from typing import TYPE_CHECKING
 
+if TYPE_CHECKING:
+    from .comment import Comment
+    
 class CommentableEntity:
 
     def __init__(self, author : User, content: str):

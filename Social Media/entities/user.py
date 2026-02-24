@@ -1,5 +1,8 @@
 
 import uuid
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from repositories.post_repo import Post
 
 class User:
 
@@ -7,17 +10,16 @@ class User:
         self.id = str(uuid.uuid4())
         self.name =  name
         self.email = email
-        self.posts : set['User'] = {}
-        self.friends : list = []
+        self.posts : list['Post'] = []
+        self.friends : set['User'] = set()
 
-    def addPost(self,):
-        pass
+    def add_post(self, post: 'Post'):
+        self.posts.append(post)
 
-    def addFriends(self, friend : 'User'):
+    def add_friend(self, friend : 'User'):
         self.friends.append(friend)
 
     # getter methods
-
     def get_name(self):
         return self.name
     
