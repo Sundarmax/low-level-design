@@ -29,3 +29,6 @@ class User:
     
     def get_friends(self) -> set['User']:
         return self.friends
+    
+    def get_id(self):
+        return self.id
