@@ -3,12 +3,14 @@ from services.user_service import UserService
 from services.news_feed_service import NewsFeedService
 from entities.user import User
 from entities.post import Post
+from observers.user_notifier import UserNotifier
 
 class SocialNetworkFacade:
     def __init__(self):
         self.user_service = UserService()
         self.post_service = PostService()
         self.feed_service = NewsFeedService()
+        self.post_service.observers.append(UserNotifier())
     
     def create_user(self,name: str, email: str) -> User:
         return self.user_service.create_user(name,email)
