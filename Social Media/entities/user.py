@@ -17,7 +17,7 @@ class User:
         self.posts.append(post)
 
     def add_friend(self, friend : 'User'):
-        self.friends.append(friend)
+        self.friends.add(friend)
 
     # getter methods
     def get_name(self):

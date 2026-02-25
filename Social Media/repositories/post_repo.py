@@ -21,7 +21,7 @@ class PostRepository:
         return cls()
     
     def save(self, post : Post):
-        self.post[post.get_id()] = post
+        self.posts[post.get_id()] = post
 
     def find_by_id(self, post_id: str) -> Optional['Post']:
         return self.posts.get(post_id)
