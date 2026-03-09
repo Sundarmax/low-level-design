@@ -33,7 +33,11 @@ class IdleState(VendingMachineState):
         print("Select the item first")
     
     def select_item(self, code):
-        pass
+        if not self.machine.get_inventory().is_available(code):
+            print("Item not available.")
+            return
+        self.machine.set_selected_item_code(code)
+        self.machine.set_state(SelectedItemState(self.machine))
 
     def dispense(self):
         print("No item selected")
@@ -48,7 +52,12 @@ class SelectedItemState(VendingMachineState):
         super().__init__(machine)
 
     def insert_coin(self, coin : Coin):
-        pass
+        self.machine.add_balance(coin.get_value())
+        print(f"coin inserted : {coin.get_value()}")
+        price = self.machine.get_selected_item().get_price()
+        if self.machine.get_balance() >=price:
+            print("Sufficient money received")
+            self.machine.set_state(HasMoneyState(self.machine))
 
     def select_item(self, code):
         print("Item alredy selected")
@@ -71,7 +80,8 @@ class HasMoneyState(VendingMachineState):
         print("Item alredy selected")
 
     def dispense(self):
-        pass
+        self.machine.set_state(DispenseState(self.machine))
+        self.machine.dispense_item()
     
     def refund(self):
         pass
