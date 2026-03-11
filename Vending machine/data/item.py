@@ -6,10 +6,10 @@ class Item:
         self.price = price
     
     def get_name(self) -> str:
-        self.name
+        return self.name
 
     def get_price(self) -> int:
-        self.price
+        return self.price
 
     def get_item_code(self):
         return self.code

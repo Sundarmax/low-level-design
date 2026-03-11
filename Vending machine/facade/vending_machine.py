@@ -6,13 +6,25 @@ from enums.coin import Coin
 from states.vending_machine_state import *
 
 class VendingMachine:
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(VendingMachine, cls).__new__(cls)
+            cls._instance._initialized = False
+        return cls._instance
 
     def __init__(self):
-        self.inventory = Inventory()
-        self.current_state = IdleState()
-        self.balance = 0
-        self.selected_item_code = None
+        if not hasattr(self, '_initialized') or not self._initialized:
+            self.inventory = Inventory()
+            self.current_state = IdleState(self)
+            self.balance = 0
+            self.selected_item_code = None
+            self._initialized = True
 
+    def get_instance(cls):
+        return cls()
+    
     def add_item(self,name : str,code : str,price : int,quantity : int):
         itm = Item(name,price,code)
         self.inventory.add_item(code, itm, quantity)
@@ -32,7 +44,7 @@ class VendingMachine:
         if itm.get_price() <= self.balance :
             self.inventory.reduce_stock(self.selected_item_code) 
             self.balance -=itm.get_price()
-            print(f"Dispensed : {itm.get_name}")
+            print(f"Dispensed : {itm.get_name()}")
             if self.balance > 0:
                 print(f"Returning change {self.balance}")
         self.reset()

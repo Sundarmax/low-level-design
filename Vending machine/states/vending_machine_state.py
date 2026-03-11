@@ -5,7 +5,7 @@ from enums.coin import Coin
 class VendingMachineState(ABC):
 
     def __init__(self, machine):
-        super().__init__(machine)
+        self.machine = machine
 
     @abstractmethod
     def insert_coin(self, coin : Coin) -> None:
